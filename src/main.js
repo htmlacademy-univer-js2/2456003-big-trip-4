@@ -4,7 +4,7 @@ import {
 } from './render.js';
 import TripInfoView from './view/create-trip.js';
 import FiltersView from './view/create-filter.js';
-import PointsPresenter from './presenter/board-presenter.js';
+import PointsPresenter from './presenter/trip-presenter.js';
 
 const tripMainContainer = document.querySelector('.trip-main');
 const tripEventsContainer = document.querySelector('.trip-events');

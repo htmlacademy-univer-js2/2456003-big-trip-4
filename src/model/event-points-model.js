@@ -1,4 +1,4 @@
-import { getRandomEventPoint } from '../mock/event-points.js';
+import { getRandomEventPoint } from '../mock/event-points-mock.js';
 import { POINTS_COUNT } from '../const.js';
 
 export default class PointsModel {
