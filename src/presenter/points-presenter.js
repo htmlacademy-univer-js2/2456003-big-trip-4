@@ -2,11 +2,11 @@ import {
   render,
   replace
 } from '../framework/render.js';
-import EventsListView from '../view/events-list.js';
-import EventsListEmptyView from '../view/events-list.js';
+import EventsListView from '../view/events-list-view.js';
+import EventsListEmptyView from '../view/events-list-empty-view.js';
 import PointView from '../view/point-view.js';
-import PointEditorView from '../view/editor-view.js';
-import SortingView from '../view/create-sort.js';
+import PointEditorView from '../view/editor-point-view.js';
+import SortingView from '../view/create-sort-view.js';
 
 export default class PointsPresenter {
   #pointsContainer = null;

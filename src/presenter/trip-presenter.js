@@ -3,7 +3,7 @@ import {
   RenderPosition
 } from '../framework/render.js';
 
-import TripInfoView from '../view/create-trip.js';
+import TripInfoView from '../view/create-trip-view.js';
 
 const tripMainContainer = document.querySelector('.trip-main');
 

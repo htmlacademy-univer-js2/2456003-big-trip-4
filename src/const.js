@@ -8,6 +8,7 @@ const MSEC_IN_HOUR = MSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
 const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
 const MAX_IMAGES_COUNT = 5;
 
+
 const EVENT_TYPES = [
   'taxi',
   'bus',
