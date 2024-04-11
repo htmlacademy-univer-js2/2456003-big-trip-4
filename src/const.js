@@ -8,7 +8,6 @@ const MSEC_IN_HOUR = MSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
 const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
 const MAX_IMAGES_COUNT = 5;
 
-
 const EVENT_TYPES = [
   'taxi',
   'bus',
@@ -18,8 +17,8 @@ const EVENT_TYPES = [
   'flight',
   'check-in',
   'sightseeing',
-  'restaurant',];
-
+  'restaurant',
+];
 
 const CITIES = [
   'Paris',
@@ -32,7 +31,6 @@ const CITIES = [
   'San-Francisco'
 ];
 
-
 const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt architecto labore atque!',
   'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem exercitationem culpa, molestias qui eveniet corrupti?',
@@ -40,18 +38,15 @@ const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit ad eaque cupiditate praesentium maxime.',
 ];
 
-
 const Price = {
   MIN: 1,
   MAX: 500,
 };
 
-
 const MocksMaxCount = {
   OFFERS: 7,
   POINTS: 5,
 };
-
 
 const DateFormat = {
   TIME: 'HH:mm',
@@ -60,29 +55,27 @@ const DateFormat = {
   WITH_DELIMITER: 'DD/MM/YY HH:mm',
 };
 
-
 const DurationFormat = {
   DAYS: 'DD[D] HH[H] mm[M]',
   HOURS: 'HH[H] mm[M]',
   MINS: 'mm[M]',
 };
 
-
 export {
-POINTS_COUNT,
-MSEC_IN_SEC,
-SEC_IN_MIN,
-MIN_IN_HOUR,
-HOUR_IN_DAY,
-MAX_PRICE_VALUE,
-MSEC_IN_HOUR,
-MSEC_IN_DAY,
-MAX_IMAGES_COUNT,
-EVENT_TYPES,
-CITIES,
-DESCRIPTIONS,
-Price,
-MocksMaxCount,
-DateFormat,
-DurationFormat,
+  POINTS_COUNT,
+  MSEC_IN_SEC,
+  SEC_IN_MIN,
+  MIN_IN_HOUR,
+  HOUR_IN_DAY,
+  MAX_PRICE_VALUE,
+  MSEC_IN_HOUR,
+  MSEC_IN_DAY,
+  MAX_IMAGES_COUNT,
+  EVENT_TYPES,
+  CITIES,
+  DESCRIPTIONS,
+  Price,
+  MocksMaxCount,
+  DateFormat,
+  DurationFormat,
 };
