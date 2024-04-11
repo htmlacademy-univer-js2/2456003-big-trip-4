@@ -4,19 +4,19 @@ dayjs.extend(duration);
 import {
   MSEC_IN_HOUR,
   MSEC_IN_DAY,
-  DURATION_FORMATS
+  DateFormat,
+  DurationFormat
 } from './const.js';
 
-// Функция для получения случайного элемента из массива
 const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
+const getRandomPositiveNumber = (min = 0, max = 1) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
+  return Math.floor(lower + Math.random() * (upper - lower + 1));
+};
+const getRandomDate = (start = new Date(2022, 0, 1), end = new Date()) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+const formatDate = (currentDate, format = DateFormat.FULL) => dayjs(currentDate).format(format);
 
-// Функция для генерации случайного положительного числа
-const getRandomPositiveNumber = (max) => Math.ceil(Math.random() * max);
-
-// Функция для форматирования даты в указанном формате
-const humanizeDate = (currentDate, format) => currentDate ? dayjs(currentDate).format(format) : '';
-
-// Функция для вычисления продолжительности между двумя датами
 const calculateDuration = (dateFrom, dateTo) => {
   const diff = dayjs(dateTo).diff(dayjs(dateFrom));
 
@@ -24,20 +24,19 @@ const calculateDuration = (dateFrom, dateTo) => {
 
   switch (true) {
     case (diff >= MSEC_IN_DAY):
-      pointDuration = dayjs.duration(diff).format(DURATION_FORMATS.days);
+      pointDuration = dayjs.duration(diff).format(DurationFormat.DAYS);
       break;
     case (diff >= MSEC_IN_HOUR):
-      pointDuration = dayjs.duration(diff).format(DURATION_FORMATS.hours);
+      pointDuration = dayjs.duration(diff).format(DurationFormat.HOURS);
       break;
     case (diff < MSEC_IN_HOUR):
-      pointDuration = dayjs.duration(diff).format(DURATION_FORMATS.mins);
+      pointDuration = dayjs.duration(diff).format(DurationFormat.MINS);
       break;
   }
 
   return pointDuration;
 };
 
-// Функция для инкрементации счетчика
 const incrementCounter = (START_FROM) => {
   let counterStart = START_FROM;
   return function() {
@@ -45,10 +44,14 @@ const incrementCounter = (START_FROM) => {
   };
 };
 
+const toCapitalize = (str) => `${str[0].toUpperCase()}${str.slice(1)}`;
+
 export {
   getRandomArrayElement,
   getRandomPositiveNumber,
-  humanizeDate,
+  getRandomDate,
+  formatDate,
   calculateDuration,
-  incrementCounter
+  incrementCounter,
+  toCapitalize,
 };
