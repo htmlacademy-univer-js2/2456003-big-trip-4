@@ -20,6 +20,7 @@ const pointsPresenter = new PointsPresenter({
   destinationsModel
 });
 
+
 const filtersPresenter = new FiltersPresenter({pointsModel});
 const tripInfoPresenter = new TripInfoPresenter();
 
