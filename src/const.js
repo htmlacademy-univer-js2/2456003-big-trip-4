@@ -6,17 +6,19 @@ const HOUR_IN_DAY = 24;
 const MAX_PRICE_VALUE = 200;
 const MSEC_IN_HOUR = MSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
 const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
+const MAX_IMAGES_COUNT = 5;
 
 const EVENT_TYPES = [
-  'Taxi',
-  'Bus',
-  'Train',
-  'Ship', 'Drive',
-  'Flight',
-  'Check-in',
-  'Sightseeing',
-  'Restaurant'];
-
+  'taxi',
+  'bus',
+  'train',
+  'ship',
+  'drive',
+  'flight',
+  'check-in',
+  'sightseeing',
+  'restaurant',
+];
 
 const CITIES = [
   'Paris',
@@ -29,41 +31,51 @@ const CITIES = [
   'San-Francisco'
 ];
 
-
-const DESCCRIPTIONS = [
+const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt architecto labore atque!',
   'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem exercitationem culpa, molestias qui eveniet corrupti?',
   'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius, dolorem.',
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit ad eaque cupiditate praesentium maxime.',
 ];
 
-
-const DATE_FORMATS = {
-  time: 'HH:mm',
-  shortDate: 'MMM DD',
-  formDateTime: 'DD/MM/YY HH:mm'
+const Price = {
+  MIN: 1,
+  MAX: 500,
 };
 
-
-const DURATION_FORMATS = {
-  days: 'DD[D] HH[H] mm[M]',
-  hours: 'HH[H] mm[M]',
-  mins: 'mm[M]'
+const MocksMaxCount = {
+  OFFERS: 7,
+  POINTS: 5,
 };
 
+const DateFormat = {
+  TIME: 'HH:mm',
+  SHORT: 'MMM DD',
+  FULL: 'YYYY-MM-DDTHH:mm',
+  WITH_DELIMITER: 'DD/MM/YY HH:mm',
+};
+
+const DurationFormat = {
+  DAYS: 'DD[D] HH[H] mm[M]',
+  HOURS: 'HH[H] mm[M]',
+  MINS: 'mm[M]',
+};
 
 export {
-POINTS_COUNT,
-MSEC_IN_SEC,
-SEC_IN_MIN,
-MIN_IN_HOUR,
-HOUR_IN_DAY,
-MAX_PRICE_VALUE,
-MSEC_IN_HOUR,
-MSEC_IN_DAY,
-EVENT_TYPES,
-CITIES,
-DESCCRIPTIONS,
-DATE_FORMATS,
-DURATION_FORMATS,
+  POINTS_COUNT,
+  MSEC_IN_SEC,
+  SEC_IN_MIN,
+  MIN_IN_HOUR,
+  HOUR_IN_DAY,
+  MAX_PRICE_VALUE,
+  MSEC_IN_HOUR,
+  MSEC_IN_DAY,
+  MAX_IMAGES_COUNT,
+  EVENT_TYPES,
+  CITIES,
+  DESCRIPTIONS,
+  Price,
+  MocksMaxCount,
+  DateFormat,
+  DurationFormat,
 };
