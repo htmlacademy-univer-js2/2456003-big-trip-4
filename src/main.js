@@ -26,3 +26,4 @@ const tripInfoPresenter = new TripInfoPresenter();
 pointsPresenter.init();
 filtersPresenter.init();
 tripInfoPresenter.init();
+
