@@ -61,6 +61,60 @@ const DurationFormat = {
   MINS: 'mm[M]',
 };
 
+const FilterType = {
+  ANY: 'any',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past'
+};
+
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFER: 'offer',
+};
+
+const FilterSettings = {
+  [FilterType.ANY]: {
+    label: 'Everything',
+    defaultSelected: true,
+  },
+  [FilterType.FUTURE]: { label: 'Future' },
+  [FilterType.PRESENT]: { label: 'Present' },
+  [FilterType.PAST]: { label: 'Past' },
+};
+
+const SORTING_COLUMNS = [
+  {
+    type: SortType.DAY,
+    label: 'Day',
+    active: true,
+    defaultSelected: true,
+  },
+  {
+    type: SortType.EVENT,
+    label: 'Event',
+    active: false,
+  },
+  {
+    type: SortType.TIME,
+    label: 'Time',
+    active: true,
+  },
+  {
+    type: SortType.PRICE,
+    label: 'Price',
+    active: true,
+  },
+  {
+    type: SortType.OFFER,
+    label: 'Offer',
+    active: false,
+  },
+];
+
 export {
   POINTS_COUNT,
   MSEC_IN_SEC,
@@ -78,4 +132,8 @@ export {
   MocksMaxCount,
   DateFormat,
   DurationFormat,
+  FilterType,
+  FilterSettings,
+  SortType,
+  SORTING_COLUMNS,
 };
