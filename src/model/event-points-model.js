@@ -1,14 +1,12 @@
-export default class PointsModel {
-  #service = null;
-  #points = null;
+import { getRandomEventPoint } from '../mock/event-points.js';
+import { POINTS_COUNT } from '../const.js';
 
-  constructor(service) {
-    this.#service = service;
-    this.#points = this.#service.points;
+export default class PointsModel {
+  constructor() {
+    this.points = Array.from({ length: POINTS_COUNT }, getRandomEventPoint);
   }
 
-  get() {
-    return this.#points;
+  getEventPoints() {
+    return this.points;
   }
 }
-
