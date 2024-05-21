@@ -1,4 +1,4 @@
-import ItemListView from './item-list-view.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createFilterItemTemplate(filter) {
   const { type, label, defaultSelected, disabled } = filter;
@@ -11,6 +11,7 @@ function createFilterItemTemplate(filter) {
 }
 
 function createFiltersTemplate(filters) {
+
   return (
     `<form class="trip-filters" action="#" method="get">
       ${filters.map(createFilterItemTemplate).join('')}
@@ -19,8 +20,22 @@ function createFiltersTemplate(filters) {
   );
 }
 
-export default class FiltersView extends ItemListView {
+export default class FiltersView extends AbstractView {
+  #items = [];
+  #onFilterChange = null;
+
+  constructor({
+    items,
+    onFilterChange
+  }) {
+    super();
+
+    this.#items = items;
+    this.#onFilterChange = onFilterChange;
+    this.element.addEventListener('change', this.#onFilterChange);
+  }
+
   get template() {
-    return createFiltersTemplate(this._items);
+    return createFiltersTemplate(this.#items);
   }
 }
