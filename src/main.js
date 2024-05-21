@@ -6,7 +6,6 @@ import FiltersPresenter from './presenter/filters-presenter.js';
 import TripInfoPresenter from './presenter/trip-presenter.js';
 import MockService from './service/mock-service.js';
 
-
 const mockService = new MockService();
 const pointsModel = new PointsModel(mockService);
 const offersModel = new OffersModel(mockService);
