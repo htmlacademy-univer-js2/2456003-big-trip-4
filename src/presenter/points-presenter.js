@@ -9,15 +9,17 @@ export default class PointPresenter {
   #pointEditorComponent = null;
   #point = null;
   #onPointChange = null;
+  #onEditorOpen = null;
   #destinationsModel = null;
   #offersModel = null;
   #mode = PointMode.IDLE;
 
-  constructor({ container, destinationsModel, offersModel, onPointChange }) {
+  constructor({ container, destinationsModel, offersModel, onPointChange, onEditorOpen, }) {
     this.#container = container;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
     this.#onPointChange = onPointChange;
+    this.#onEditorOpen = onEditorOpen;
   }
 
   init(point) {
@@ -28,6 +30,7 @@ export default class PointPresenter {
       destination: this.#destinationsModel.getById(point.destination),
       offers: this.#offersModel.getByType(point.type),
       onEditClick: this.#pointEditHandler,
+      onFavoriteToggle: this.#pointFavoriteToggleHandler,
     });
 
     this.#pointEditorComponent = new PointEditorView({
@@ -35,7 +38,7 @@ export default class PointPresenter {
       destination: this.#destinationsModel.getById(point.destination),
       offers: this.#offersModel.getByType(point.type),
       onCloseClick: this.#pointCloseHandler,
-      onSubmitForm: this.#pointSubmitHandler,
+      onSubmitForm: this.#pointSubmitHandler
     });
 
     if (this.#mode === PointMode.EDITABLE) {
@@ -54,6 +57,7 @@ export default class PointPresenter {
       destination: this.#destinationsModel.getById(point.destination),
       offers: this.#offersModel.getByType(point.type),
       onEditClick: this.#pointEditHandler,
+      onFavoriteToggle: this.#pointFavoriteToggleHandler,
     });
 
     const updatedEditorComponent = new PointEditorView({
@@ -79,6 +83,12 @@ export default class PointPresenter {
     remove(this.#pointEditorComponent);
   }
 
+  resetView() {
+    if(this.#mode !== PointMode.IDLE) {
+      this.#replaceEditorByPoint();
+    }
+  }
+
   #replacePointByEditor() {
     replace(this.#pointEditorComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -99,12 +109,17 @@ export default class PointPresenter {
   };
 
   #pointEditHandler = () => {
+    this.#onEditorOpen();
     this.#replacePointByEditor();
   };
 
   #pointSubmitHandler = (point) => {
     this.#onPointChange(point);
     this.#replaceEditorByPoint();
+  };
+
+  #pointFavoriteToggleHandler = (isFavorite) => {
+    this.#onPointChange({ ...this.#point, isFavorite });
   };
 
   #pointCloseHandler = () => {
