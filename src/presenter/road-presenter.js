@@ -75,11 +75,16 @@ export default class RoadPresenter {
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
       onPointChange: this.#pointChangeHandler,
+      onEditorOpen: this.#pointEditHandler,
     });
 
     pointPresenter.init(point);
     this.#pointsPresenters.set(point.id, pointPresenter);
   }
+
+  #pointEditHandler = () => {
+    this.#pointsPresenters.forEach((presenter) => presenter.resetView());
+  };
 
   #pointChangeHandler = (updatedPoint) => {
     this.#points = updateItem(this.#points, updatedPoint);
