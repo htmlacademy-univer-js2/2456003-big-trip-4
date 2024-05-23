@@ -10,16 +10,18 @@ export default class PointPresenter {
   #point = null;
   #onPointChange = null;
   #onEditorOpen = null;
+  #onPointDelete = null;
   #destinationsModel = null;
   #offersModel = null;
   #mode = PointMode.IDLE;
 
-  constructor({ container, destinationsModel, offersModel, onPointChange, onEditorOpen, }) {
+  constructor({ container, destinationsModel, offersModel, onPointChange, onEditorOpen, onPointDelete,}) {
     this.#container = container;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
     this.#onPointChange = onPointChange;
     this.#onEditorOpen = onEditorOpen;
+    this.#onPointDelete = onPointDelete;
   }
 
   init(point) {
@@ -82,6 +84,7 @@ export default class PointPresenter {
       offers: this.#offersModel.get(),
       onCloseClick: this.#pointCloseHandler,
       onSubmitForm: this.#pointSubmitHandler,
+      onDeleteClick: this.#pointDeleteHandler,
     });
   }
 
@@ -113,6 +116,11 @@ export default class PointPresenter {
     this.#onPointChange(point);
     this.#replaceEditorByPoint();
   };
+
+  #pointDeleteHandler = (point) => {
+    this.#onPointDelete(point);
+  };
+
 
   #pointFavoriteToggleHandler = (isFavorite) => {
     this.#onPointChange({ ...this.#point, isFavorite });

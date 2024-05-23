@@ -5,13 +5,13 @@ import FiltersView from '../view/filters-view.js';
 import { FilterSettings } from '../const.js';
 import { filterByType } from '../utils';
 
-const filtersContainer = document.querySelector('.trip-controls__filters');
-
 export default class FiltersPresenter {
+  #container = null;
   #pointsModel = null;
   #filters = [];
 
-  constructor({pointsModel}) {
+  constructor({ container, pointsModel }) {
+    this.#container = container;
     this.#pointsModel = pointsModel;
 
     this.#filters = Object.entries(filterByType)
@@ -25,6 +25,6 @@ export default class FiltersPresenter {
   init() {
     render(new FiltersView({
       items: this.#filters
-    }), filtersContainer);
+    }), this.#container);
   }
 }

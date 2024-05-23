@@ -3,7 +3,7 @@ import EventsListView from '../view/events-list-view.js';
 import EventsListEmptyView from '../view/events-list-empty-view.js';
 import { SORTING_COLUMNS, SortType } from '../const.js';
 import PointPresenter from './points-presenter.js';
-import { sortByType, updateItem } from '../utils.js';
+import { sortByType, updateItem, deleteItem } from '../utils.js';
 import SortingView from '../view/create-sort-view.js';
 
 export default class RoadPresenter {
@@ -23,8 +23,8 @@ export default class RoadPresenter {
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#points = sortByType[this.#currentSortType]([
-      ...this.#pointsModel.get(),
-    ]);
+      ...this.#pointsModel.get()]);
+    this.#pointsModel.addObserver(this.#modelEventHandler);
   }
 
   init() {
@@ -58,6 +58,7 @@ export default class RoadPresenter {
 
   #renderRoad() {
     render(this.#listComponent, this.#container);
+    this.#points = sortByType[this.#currentSortType]([...this.#pointsModel.get()]);
 
     this.#points.forEach((point) => {
       this.#renderPoint(point);
@@ -76,6 +77,7 @@ export default class RoadPresenter {
       offersModel: this.#offersModel,
       onPointChange: this.#pointChangeHandler,
       onEditorOpen: this.#pointEditHandler,
+      onPointDelete: this.#pointDeleteHandler,
     });
 
     pointPresenter.init(point);
@@ -91,10 +93,20 @@ export default class RoadPresenter {
     this.#pointsPresenters.get(updatedPoint.id).update(updatedPoint);
   };
 
+  #pointDeleteHandler = (deletedPoint) => {
+    this.#points = deleteItem(this.#points, deletedPoint);
+    this.#pointsPresenters.get(deletedPoint.id).destroy();
+  };
+
   #sortChangeHandler = (sortType) => {
     this.#currentSortType = sortType;
 
     this.#points = sortByType[this.#currentSortType](this.#points);
+    this.#clearRoad();
+    this.#renderRoad();
+  };
+
+  #modelEventHandler = () => {
     this.#clearRoad();
     this.#renderRoad();
   };

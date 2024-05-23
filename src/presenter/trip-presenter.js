@@ -5,10 +5,14 @@ import {
 
 import TripInfoView from '../view/create-trip-view.js';
 
-const tripMainContainer = document.querySelector('.trip-main');
-
 export default class TripInfoPresenter {
+  #container = null;
+
+  constructor(container) {
+    this.#container = container;
+  }
+
   init() {
-    render(new TripInfoView(), tripMainContainer, RenderPosition.AFTERBEGIN);
+    render(new TripInfoView(), this.#container, RenderPosition.AFTERBEGIN);
   }
 }

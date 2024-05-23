@@ -101,6 +101,7 @@ const DateFormat = {
   SHORT: 'MMM DD',
   FULL: 'YYYY-MM-DDTHH:mm',
   WITH_DELIMITER: 'DD/MM/YY HH:mm',
+  WITH_DELIMITER_FLAT_PICKER: 'd/m/y H:i',
 };
 
 const DurationFormat = {
@@ -119,6 +120,32 @@ const MocksMaxCount = {
   POINTS: 5,
 };
 
+const DEFAULT_EVENT_TYPE = 'flight';
+
+const POINT_DUMMY = {
+  basePrice: 0,
+  dateFrom: null,
+  dateTo: null,
+  destination: null,
+  isFavorite: false,
+  offers: [],
+  type: DEFAULT_EVENT_TYPE,
+};
+
+const REQUIRED_POINT_FIELDS = ['dateFrom', 'dateTo', 'destination', 'type'];
+
+const EditType = {
+  EDITING: 'EDITING',
+  CREATING: 'CREATING',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+  INIT: 'INIT',
+};
+
 export {
   POINTS_COUNT,
   EVENT_TYPES,
@@ -128,6 +155,8 @@ export {
   DESCRIPTIONS,
   SORTING_COLUMNS,
   PointMode,
+  EditType,
+  UpdateType,
   FilterType,
   FilterSettings,
   SortType,
@@ -137,4 +166,6 @@ export {
   MocksMaxCount,
   MSEC_IN_HOUR,
   MSEC_IN_DAY,
+  POINT_DUMMY,
+  REQUIRED_POINT_FIELDS,
 };
