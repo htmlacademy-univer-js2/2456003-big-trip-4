@@ -1,9 +1,9 @@
 import { remove, render } from '../framework/render.js';
 import EventsListView from '../view/events-list-view.js';
 import EventsListEmptyView from '../view/events-list-empty-view.js';
-import { SORTING_COLUMNS, SortType } from '../const.js';
+import { SORTING_COLUMNS, SortType, UpdateType } from '../const.js';
 import PointPresenter from './points-presenter.js';
-import { sortByType, updateItem, deleteItem } from '../utils.js';
+import { sortByType } from '../utils.js';
 import SortingView from '../view/create-sort-view.js';
 
 export default class RoadPresenter {
@@ -11,7 +11,6 @@ export default class RoadPresenter {
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
-  #points = [];
   #currentSortType = SortType.DAY;
   #listComponent = new EventsListView();
   #sortingComponent = null;
@@ -22,18 +21,15 @@ export default class RoadPresenter {
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
-    this.#points = sortByType[this.#currentSortType]([
-      ...this.#pointsModel.get()]);
+
     this.#pointsModel.addObserver(this.#modelEventHandler);
   }
 
-  init() {
-    if (!this.#points.length) {
-      this.#renderStub();
-      return;
-    }
+  get points() {
+    return sortByType[this.#currentSortType]([...this.#pointsModel.get()]);
+  }
 
-    this.#renderSort();
+  init() {
     this.#renderRoad();
   }
 
@@ -50,6 +46,7 @@ export default class RoadPresenter {
   #renderSort() {
     this.#sortingComponent = new SortingView({
       items: SORTING_COLUMNS,
+      selectedSortType: this.#currentSortType,
       onSortChange: this.#sortChangeHandler,
     });
 
@@ -57,10 +54,19 @@ export default class RoadPresenter {
   }
 
   #renderRoad() {
-    render(this.#listComponent, this.#container);
-    this.#points = sortByType[this.#currentSortType]([...this.#pointsModel.get()]);
+    if (!this.points.length) {
+      this.#renderStub();
+      return;
+    }
 
-    this.#points.forEach((point) => {
+    this.#renderSort();
+    this.#renderPoints();
+  }
+
+  #renderPoints() {
+    render(this.#listComponent, this.#container);
+
+    this.points.forEach((point) => {
       this.#renderPoint(point);
     });
   }
@@ -68,6 +74,7 @@ export default class RoadPresenter {
   #clearRoad() {
     this.#pointsPresenters.forEach((presenter) => presenter.destroy());
     this.#pointsPresenters.clear();
+    remove(this.#sortingComponent);
   }
 
   #renderPoint(point) {
@@ -89,25 +96,32 @@ export default class RoadPresenter {
   };
 
   #pointChangeHandler = (updatedPoint) => {
-    this.#points = updateItem(this.#points, updatedPoint);
-    this.#pointsPresenters.get(updatedPoint.id).update(updatedPoint);
+    this.#pointsModel.update(UpdateType.MINOR, updatedPoint);
   };
 
   #pointDeleteHandler = (deletedPoint) => {
-    this.#points = deleteItem(this.#points, deletedPoint);
-    this.#pointsPresenters.get(deletedPoint.id).destroy();
+    this.#pointsModel.delete(UpdateType.MAJOR, deletedPoint);
   };
 
   #sortChangeHandler = (sortType) => {
     this.#currentSortType = sortType;
 
-    this.#points = sortByType[this.#currentSortType](this.#points);
     this.#clearRoad();
     this.#renderRoad();
   };
 
-  #modelEventHandler = () => {
-    this.#clearRoad();
-    this.#renderRoad();
+  #modelEventHandler = (type, data) => {
+    switch (type) {
+      case UpdateType.PATCH:
+        this.#pointsPresenters.get(data.id)?.init(data);
+        break;
+
+      case UpdateType.MINOR:
+      case UpdateType.MAJOR:
+      default:
+        this.#clearRoad();
+        this.#renderRoad();
+        break;
+    }
   };
 }
