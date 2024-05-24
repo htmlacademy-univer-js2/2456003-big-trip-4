@@ -4,13 +4,16 @@ import DestinationsModel from './model/destinations-model.js';
 import RoadPresenter from './presenter/road-presenter.js';
 import FiltersPresenter from './presenter/filters-presenter.js';
 import TripInfoPresenter from './presenter/trip-presenter.js';
-import MockService from './service/mock-service.js';
 import CreatePointPresenter from './presenter/create-point-presenter.js';
+import MainApiService from './service/points-api-service.js';
+import FiltersModel from './model/filters-model.js';
 
-const mockService = new MockService();
-const pointsModel = new PointsModel(mockService);
-const offersModel = new OffersModel(mockService);
-const destinationsModel = new DestinationsModel(mockService);
+
+const apiService = new MainApiService();
+const pointsModel = new PointsModel(apiService);
+const offersModel = new OffersModel(apiService);
+const destinationsModel = new DestinationsModel(apiService);
+const filtersModel = new FiltersModel();
 
 const pointsContainer = document.querySelector('.trip-events');
 const filtersContainer = document.querySelector('.trip-controls__filters');
@@ -26,18 +29,26 @@ const createPointPresenter = new CreatePointPresenter({
 
 const roadPresenter = new RoadPresenter({
   container: pointsContainer,
-  createPointBtnContainer: tripMainContainer,
+  createPointPresenter,
   pointsModel,
   offersModel,
-  destinationsModel
+  destinationsModel,
+  filtersModel,
 });
 
-const filtersPresenter = new FiltersPresenter({ container: filtersContainer, pointsModel });
+const filtersPresenter = new FiltersPresenter({ container: filtersContainer, pointsModel, filtersModel });
 const tripInfoPresenter = new TripInfoPresenter(tripMainContainer);
 
 
-createPointPresenter.init();
-roadPresenter.init();
-filtersPresenter.init();
-tripInfoPresenter.init();
+const bootstrap = async () => {
+  await Promise.all([
+    offersModel.init(),
+    destinationsModel.init(),
+  ]);
+  pointsModel.init();
+  roadPresenter.init();
+  filtersPresenter.init();
+  tripInfoPresenter.init();
+};
 
+bootstrap();

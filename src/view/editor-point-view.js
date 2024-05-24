@@ -18,10 +18,10 @@ const createEventTypeTemplate = (types, currentType) =>
     ''
   );
 
-const createCitiesTemplate = (cities) =>
+const createCitiesTemplate = (cities, currentValue) =>
   cities.reduce(
     (markup, city) =>
-      `${markup}<option value="${toCapitalize(city)}"></option>`,
+      `${markup}<option value="${toCapitalize(city)}" ${city === currentValue ? 'selected' : ''}>${toCapitalize(city)}</option>`,
     ''
   );
 
@@ -118,12 +118,9 @@ function createPointEditorTemplate({ point, pointDestination, pointOffers, mode,
             <label class="event__label  event__type-output" for="event-destination-1">
               ${toCapitalize(type)}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${
-  pointDestination?.name || ''
-}" list="destination-list-1">
-            <datalist id="destination-list-1">
-              ${createCitiesTemplate(CITIES)}
-            </datalist>
+            <select class="event__input  event__input--destination">
+              ${createCitiesTemplate(CITIES, pointDestination?.name)}
+            </select>
           </div>
 
           <div class="event__field-group  event__field-group--time">
@@ -145,7 +142,7 @@ function createPointEditorTemplate({ point, pointDestination, pointOffers, mode,
               <span class="visually-hidden">Price</span>
               &euro;
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+            <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice}">
           </div>
 
           <button class="event__save-btn  btn  btn--blue" type="submit" ${!isValid ? 'disabled' : ''}>Save</button>
@@ -261,7 +258,7 @@ export default class PointEditorView extends AbstractStatefulView {
     this.#updatePoint({ offers: checkedOffers.map((offer) => offer.id) });
   };
 
-#priceChangeHandler = (evt) => {
+  #priceChangeHandler = (evt) => {
     this.#updatePoint({ basePrice: parseInt(evt.target.value, 10) });
   };
 
@@ -278,7 +275,7 @@ export default class PointEditorView extends AbstractStatefulView {
       locale: {
         firstDayOfWeek: 1,
       },
-      time_24hr: true,
+      time24hr: true,
     };
 
     this.#datepickerFrom = flatpickr(startDateNode, {

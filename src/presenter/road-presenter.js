@@ -3,33 +3,47 @@ import EventsListView from '../view/events-list-view.js';
 import EventsListEmptyView from '../view/events-list-empty-view.js';
 import { SORTING_COLUMNS, SortType, UpdateType } from '../const.js';
 import PointPresenter from './points-presenter.js';
-import { sortByType } from '../utils.js';
+import { filterByType, sortByType } from '../utils.js';
 import SortingView from '../view/create-sort-view.js';
+import LoaderView from '../view/loader-view.js';
 
 export default class RoadPresenter {
   #container = null;
+  #createPointPresenter = null;
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
+  #filtersModel = null;
   #currentSortType = SortType.DAY;
+  #loaderComponent = new LoaderView();
   #listComponent = new EventsListView();
   #sortingComponent = null;
   #pointsPresenters = new Map();
+  #isLoading = true;
+  #isError = false;
 
-  constructor({ container, pointsModel, offersModel, destinationsModel }) {
+  constructor({ container, createPointPresenter, pointsModel, offersModel, destinationsModel,filtersModel }) {
     this.#container = container;
+    this.#createPointPresenter = createPointPresenter;
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
+    this.#filtersModel = filtersModel;
 
-    this.#pointsModel.addObserver(this.#modelEventHandler);
+    this.#pointsModel.addObserver(this.#pointsModelEventHandler);
+    this.#filtersModel.addObserver(this.#filterModelEventHandler);
   }
 
   get points() {
-    return sortByType[this.#currentSortType]([...this.#pointsModel.get()]);
+    const points = this.#pointsModel.get();
+    const filterType = this.#filtersModel.get();
+    const filteredPoints = filterByType[filterType](points);
+
+    return sortByType[this.#currentSortType](filteredPoints);
   }
 
   init() {
+    this.#createPointPresenter.init();
     this.#renderRoad();
   }
 
@@ -37,6 +51,10 @@ export default class RoadPresenter {
     remove(this.#sortingComponent);
     remove(this.#listComponent);
     this.#clearRoad();
+  }
+
+  #renderLoader() {
+    render(this.#loaderComponent, this.#container);
   }
 
   #renderStub() {
@@ -54,6 +72,14 @@ export default class RoadPresenter {
   }
 
   #renderRoad() {
+    if (this.#isLoading) {
+      this.#createPointPresenter.setButtonDisabled(true);
+      this.#renderLoader();
+      return;
+    }
+
+    this.#createPointPresenter.setButtonDisabled(false);
+
     if (!this.points.length) {
       this.#renderStub();
       return;
@@ -110,12 +136,32 @@ export default class RoadPresenter {
     this.#renderRoad();
   };
 
-  #modelEventHandler = (type, data) => {
+  #pointsModelEventHandler = (type, data) => {
     switch (type) {
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        this.#isError = !!data.error;
+        remove(this.#loaderComponent);
+        this.#renderRoad();
+        break;
+
       case UpdateType.PATCH:
         this.#pointsPresenters.get(data.id)?.init(data);
         break;
 
+      case UpdateType.MINOR:
+      case UpdateType.MAJOR:
+      default:
+        this.#clearRoad();
+        this.#renderRoad();
+        break;
+    }
+  };
+
+  #filterModelEventHandler = (type) => {
+    switch (type) {
+      case UpdateType.INIT:
+      case UpdateType.PATCH:
       case UpdateType.MINOR:
       case UpdateType.MAJOR:
       default:
