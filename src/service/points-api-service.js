@@ -8,8 +8,6 @@ export default class PointsApiService extends ApiService {
     super(API_HOST, AUTHORIZATION);
   }
 
-
-
   get points() {
     return this._load({url: Endpoint.POINTS})
       .then(ApiService.parseResponse);

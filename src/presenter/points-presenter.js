@@ -67,7 +67,7 @@ export default class PointPresenter {
     }
   }
 
-    #createPointView() {
+  #createPointView() {
     return new PointView({
       point: this.#point,
       destination: this.#destinationsModel.getById(this.#point.destination),

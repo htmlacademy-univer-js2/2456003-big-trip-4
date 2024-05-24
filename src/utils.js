@@ -25,11 +25,11 @@ const getDatesDiff = (dateStringFrom, dateStringTo) => dayjs(dateStringTo).diff(
 const getDuration = (dateStringFrom, dateStringTo) => dayjs.duration(getDatesDiff(dateStringFrom, dateStringTo));
 
 const calculateDuration = (dateFrom, dateTo) => {
-  const diff = getDatesDiff(dateFrom, dateTo)
+const diff = getDatesDiff(dateFrom, dateTo);
 
-  let pointDuration;
+let pointDuration;
 
-  switch (true) {
+switch (true) {
     case (diff >= MSEC_IN_DAY):
       pointDuration = dayjs.duration(diff).format(DurationFormat.DAYS);
       break;

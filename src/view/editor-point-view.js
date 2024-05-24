@@ -258,7 +258,7 @@ export default class PointEditorView extends AbstractStatefulView {
     this.#updatePoint({ offers: checkedOffers.map((offer) => offer.id) });
   };
 
-#priceChangeHandler = (evt) => {
+  #priceChangeHandler = (evt) => {
     this.#updatePoint({ basePrice: parseInt(evt.target.value, 10) });
   };
 
@@ -275,7 +275,7 @@ export default class PointEditorView extends AbstractStatefulView {
       locale: {
         firstDayOfWeek: 1,
       },
-      time_24hr: true,
+      time24hr: true,
     };
 
     this.#datepickerFrom = flatpickr(startDateNode, {

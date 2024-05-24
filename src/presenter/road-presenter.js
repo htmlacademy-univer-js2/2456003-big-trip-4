@@ -43,7 +43,7 @@ export default class RoadPresenter {
   }
 
   init() {
-    this.#createPointPresenter.init()
+    this.#createPointPresenter.init();
     this.#renderRoad();
   }
 
@@ -158,7 +158,7 @@ export default class RoadPresenter {
     }
   };
 
-    #filterModelEventHandler = (type) => {
+#filterModelEventHandler = (type) => {
     switch (type) {
       case UpdateType.INIT:
       case UpdateType.PATCH:
