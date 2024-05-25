@@ -1,27 +1,25 @@
 import { remove, render, replace } from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import PointEditorView from '../view/editor-point-view.js';
-import { PointMode } from '../const.js';
+import { EditType, PointMode, UserAction } from '../const.js';
 
 export default class PointPresenter {
   #container = null;
   #pointComponent = null;
   #pointEditorComponent = null;
   #point = null;
-  #onPointChange = null;
   #onEditorOpen = null;
-  #onPointDelete = null;
+  #onUserAction = null;
   #destinationsModel = null;
   #offersModel = null;
   #mode = PointMode.IDLE;
 
-  constructor({ container, destinationsModel, offersModel, onPointChange, onEditorOpen, onPointDelete,}) {
+  constructor({ container, destinationsModel, offersModel, onEditorOpen, onUserAction,}) {
     this.#container = container;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-    this.#onPointChange = onPointChange;
     this.#onEditorOpen = onEditorOpen;
-    this.#onPointDelete = onPointDelete;
+    this.#onUserAction = onUserAction;
   }
 
   init(point) {
@@ -85,6 +83,7 @@ export default class PointPresenter {
       onCloseClick: this.#pointCloseHandler,
       onSubmitForm: this.#pointSubmitHandler,
       onDeleteClick: this.#pointDeleteHandler,
+      mode: EditType.EDITING,
     });
   }
 
@@ -113,17 +112,17 @@ export default class PointPresenter {
   };
 
   #pointSubmitHandler = (point) => {
-    this.#onPointChange(point);
-    this.#replaceEditorByPoint();
+    this.#pointEditorComponent.setUpdating(true);
+    this.#onUserAction(UserAction.UPDATE_POINT, point);
   };
 
   #pointDeleteHandler = (point) => {
-    this.#onPointDelete(point);
+    this.#pointEditorComponent.setDeleting(true);
+    this.#onUserAction(UserAction.DELETE_POINT, point);
   };
 
-
   #pointFavoriteToggleHandler = (isFavorite) => {
-    this.#onPointChange({ ...this.#point, isFavorite });
+    this.#onUserAction(UserAction.UPDATE_POINT, { ...this.#point, isFavorite });
   };
 
   #pointCloseHandler = () => {
