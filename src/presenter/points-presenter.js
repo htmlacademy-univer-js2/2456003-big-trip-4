@@ -66,7 +66,7 @@ export default class PointPresenter {
   }
 
   triggerError() {
-    if(this.#mode !== PointMode.EDITABLE) {
+    if (this.#mode !== PointMode.EDITABLE) {
       this.#pointComponent.shake();
       return;
     }
