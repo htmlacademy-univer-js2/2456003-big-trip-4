@@ -172,6 +172,8 @@ const UiBlockerLimit = {
   UPPER: 1000,
 };
 
+const DESTINATIONS_NAMES_MAX_COUNT = 3;
+
 export {
   AUTHORIZATION,
   API_HOST,
@@ -200,4 +202,5 @@ export {
   REQUIRED_POINT_FIELDS,
   UserAction,
   UiBlockerLimit,
+  DESTINATIONS_NAMES_MAX_COUNT,
 };

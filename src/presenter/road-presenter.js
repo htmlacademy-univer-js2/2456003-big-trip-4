@@ -49,7 +49,7 @@ export default class RoadPresenter {
   }
 
   init() {
-    this.#createPointPresenter.init();
+    this.#createPointPresenter.init(this.#userActionHandler);
     this.#renderRoad();
   }
 
@@ -174,7 +174,7 @@ export default class RoadPresenter {
   };
 
   #pointsModelEventHandler = (type, data) => {
-    if (this.#isError || data.error) {
+    if (this.#isError || data?.error) {
       return;
     }
 
