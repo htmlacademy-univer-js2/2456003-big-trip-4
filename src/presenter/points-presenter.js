@@ -65,6 +65,18 @@ export default class PointPresenter {
     }
   }
 
+  triggerError() {
+    if (this.#mode !== PointMode.EDITABLE) {
+      this.#pointComponent.shake();
+      return;
+    }
+
+    this.#pointEditorComponent.shake(() => {
+      this.#pointEditorComponent.setDeleting(false);
+      this.#pointEditorComponent.setUpdating(false);
+    });
+  }
+
   #createPointView() {
     return new PointView({
       point: this.#point,

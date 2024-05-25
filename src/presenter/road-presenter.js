@@ -49,7 +49,7 @@ export default class RoadPresenter {
   }
 
   init() {
-    this.#createPointPresenter.init();
+    this.#createPointPresenter.init(this.#userActionHandler);
     this.#renderRoad();
   }
 
