@@ -19,7 +19,7 @@ export default class FiltersPresenter {
     this.#filtersModel.addObserver(this.#filtersModelEventHandler);
   }
 
- init() {
+  init() {
     this.#filters = this.#createFilters();
     this.#filtersView = this.#createView();
     render(this.#filtersView, this.#container);

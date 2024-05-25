@@ -1,5 +1,5 @@
 import Observable from '../framework/observable.js';
-import { deleteItem, updateItem, mapApiPointData } from '../utils.js';
+import { deleteItem, mapApiDataToPoint, mapPointToApiData, updateItem } from '../utils.js';
 import { UpdateType } from '../const.js';
 
 export default class PointsModel extends Observable {
@@ -13,10 +13,10 @@ export default class PointsModel extends Observable {
 
   async init() {
     try {
-      const data = await this.#service.points;
-      const points = data.map(mapApiPointData);
+      const response = await this.#service.points;
+      const points = response.map(mapApiDataToPoint);
       this.#points = points;
-      this._notify(UpdateType.INIT, { data: points });
+      this._notify(UpdateType.INIT, { response: points });
 
     } catch (err) {
       this.#points = [];
@@ -28,18 +28,38 @@ export default class PointsModel extends Observable {
     return this.#points;
   }
 
-  add(type, point) {
-    this.#points.push(point);
-    this._notify(type, point);
+  async create(type, point) {
+    try {
+      const response = await this.#service.createPoint(mapPointToApiData(point));
+      const createdPoint = mapApiDataToPoint(response);
+      this.#points.push(createdPoint);
+      this._notify(type, createdPoint);
+    } catch(error) {
+      this._notify(type, { error });
+      throw new Error(`PointsModel - failed to create point: ${error}`);
+    }
   }
 
-  update(type, point) {
-    this.#points = updateItem(this.#points, point);
-    this._notify(type, point);
+  async update(type, point) {
+    try {
+      const response = await this.#service.updatePoint(mapPointToApiData(point));
+      const updatedPoint = mapApiDataToPoint(response);
+      this.#points = updateItem(this.#points, updatedPoint);
+      this._notify(type, updatedPoint);
+    } catch(error) {
+      this._notify(type, { error });
+      throw new Error(`PointsModel - failed to update point: ${error}`);
+    }
   }
 
-  delete(type, point) {
-    this.#points = deleteItem(this.#points, point);
-    this._notify(type, point);
+  async delete(type, point) {
+    try {
+      await this.#service.deletePoint(point);
+      this.#points = deleteItem(this.#points, point);
+      this._notify(type);
+    } catch(error) {
+      this._notify(type, { error });
+      throw new Error(`PointsModel - failed to delete point: ${error}`);
+    }
   }
 }

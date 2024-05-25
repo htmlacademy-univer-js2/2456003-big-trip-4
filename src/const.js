@@ -147,7 +147,7 @@ const POINT_DUMMY = {
   type: DEFAULT_EVENT_TYPE,
 };
 
-const REQUIRED_POINT_FIELDS = ['dateFrom', 'dateTo', 'destination', 'type'];
+const REQUIRED_POINT_FIELDS = ['dateFrom', 'dateTo', 'destination', 'type', 'basePrice'];
 
 const EditType = {
   EDITING: 'EDITING',
@@ -159,6 +159,17 @@ const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',
+};
+
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+  CREATE_POINT: 'CREATE_POINT',
+};
+
+const UiBlockerLimit = {
+  LOWER: 250,
+  UPPER: 1000,
 };
 
 export {
@@ -187,4 +198,6 @@ export {
   MSEC_IN_DAY,
   POINT_DUMMY,
   REQUIRED_POINT_FIELDS,
+  UserAction,
+  UiBlockerLimit,
 };
