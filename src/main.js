@@ -19,6 +19,13 @@ const pointsContainer = document.querySelector('.trip-events');
 const filtersContainer = document.querySelector('.trip-controls__filters');
 const tripMainContainer = document.querySelector('.trip-main');
 
+const tripInfoPresenter = new TripInfoPresenter({
+  container: tripMainContainer,
+  destinationsModel,
+  offersModel,
+  pointsModel,
+});
+
 const createPointPresenter = new CreatePointPresenter({
   container: tripMainContainer,
   editorContainer: pointsContainer,
@@ -37,8 +44,6 @@ const roadPresenter = new RoadPresenter({
 });
 
 const filtersPresenter = new FiltersPresenter({ container: filtersContainer, pointsModel, filtersModel });
-const tripInfoPresenter = new TripInfoPresenter(tripMainContainer);
-
 
 const bootstrap = async () => {
   await Promise.all([
