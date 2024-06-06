@@ -21,7 +21,7 @@ const setupDestination = () => {
     pictures: Array.from({
       length: getRandomPositiveNumber(MAX_IMAGES_COUNT)
     }, () => ({
-      src: `https://loremflickr.com/248/152?121`,
+      src: 'https://loremflickr.com/248/152?121',
       description: getRandomArrayElement(DESCCRIPTIONS)
     }))
   });
