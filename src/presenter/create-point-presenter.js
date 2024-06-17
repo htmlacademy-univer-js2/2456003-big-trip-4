@@ -6,7 +6,6 @@ import PointEditorView from '../view/editor-point-view.js';
 export default class CreatePointPresenter {
   #container = null;
   #editorContainer = null;
-  #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
   #createPointButtonComponent = null;
