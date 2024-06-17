@@ -24,7 +24,7 @@ const createTripInfoTemplate = ({isEmpty, isLoading, routeLabel, periodLabel, co
     </p>
   </section>`;
 
-export default class TripInfoView extends AbstractView {
+export default class CreateTripView extends AbstractView {
   #points = [];
   #destinations = null;
   #offers = null;

@@ -3,7 +3,7 @@ import PointView from '../view/point-view.js';
 import PointEditorView from '../view/editor-point-view.js';
 import { EditType, PointMode, UserAction } from '../const.js';
 
-export default class PointPresenter {
+export default class PointsPresenter {
   #container = null;
   #pointComponent = null;
   #pointEditorComponent = null;

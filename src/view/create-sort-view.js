@@ -16,7 +16,7 @@ function createSortingTemplate(items, selectedSortType) {
   </form>`;
 }
 
-export default class SortingView extends AbstractView {
+export default class CreateSortView extends AbstractView {
   #items = [];
   #onSortChange = null;
   #selectedSortType = null;

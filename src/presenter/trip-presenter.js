@@ -3,7 +3,7 @@ import { SortType } from '../const.js';
 import { sortByType } from '../utils.js';
 import TripInfoView from '../view/create-trip-view.js';
 
-export default class TripInfoPresenter {
+export default class TripPresenter {
   #container = null;
   #pointsModel = null;
   #destinationsModel = null;
